@@ -20,6 +20,8 @@ oaklib = "^0.5.12"
 docker = "^6.0.1"
 pheval = {git = "https://github.com/monarch-initiative/pheval.git"}
 pydantic = "^1.10.7"
+chromadb = "^0.4.22"
+jupyter = "^1.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
