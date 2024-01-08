@@ -72,7 +72,7 @@ class QueryService:
         if n_results is None:
             # Perform a binary search to find the maximum safe value for n_results
             estimated_total = self.disease_service.disease_avg_embeddings_collection.get(include=['metadatas'])
-            estimated_length = len(estimated_total["metadatas"])
+            estimated_length = len(estimated_total["metadatas"]) #12468 - 1
             print(f"Estimated length (n_results) == {estimated_length}")
             max_n_results = self.binary_search_max_results(query_params, 11700, estimated_length)
             query_params["n_results"] = max_n_results
@@ -92,7 +92,6 @@ class QueryService:
         return sorted_results
 
     def binary_search_max_results(self, query_params, lower_bound, upper_bound):
-
         max_safe_value = lower_bound
 
         while lower_bound < upper_bound - 1:
@@ -106,7 +105,19 @@ class QueryService:
             except RuntimeError as e:
                 upper_bound = mid_point
 
+        # Verification step: test values around max_safe_value to ensure it's the highest safe value.
+        for test_value in range(max_safe_value - 1, max_safe_value + 2):
+            if test_value <= 0:
+                continue  # Skip non-positive values
+            query_params['n_results'] = test_value
+            try:
+                self.disease_service.disease_avg_embeddings_collection.query(**query_params)
+                max_safe_value = test_value  # Update max_safe_value if this higher value is also safe
+            except RuntimeError as e:
+                break  # Stop testing if this value causes an error
+
         return max_safe_value
+
     def query_with_custom_similarity_function(self, data1, data2):
         if self.similarity_strategy:
             return self.similarity_strategy.calculate_similarity(data1, data2)
