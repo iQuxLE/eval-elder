@@ -51,29 +51,30 @@ class ExomiserPhEvalRunner(PhEvalRunner):
         setup_time = time.time() - start_setup
         print(setup_time)
 
-
     def run(self):
-        """run"""
         print("running with exomiser")
         path = Path("/Users/carlo/Carlo/pheval/pheval/corpora/lirical/default/phenopackets")
-        for i in all_files(path):
-            self.current_file_name = i.stem
-            phenopacket = phenopacket_reader(i)
+        file_list = all_files(path)
+        print(f"Processing {len(file_list)} files...")
+        for i, file_path in enumerate(file_list, start=1):
+            print(f"Processing file {i}: {file_path}")  # Print the file being processed
+            phenopacket = phenopacket_reader(file_path)
             phenopacket_util = PhenopacketUtil(phenopacket)
             observed_phenotypes = phenopacket_util.observed_phenotypic_features()
             observed_phenotypes_hpo_ids = [
                 observed_phenotype.type.id for observed_phenotype in observed_phenotypes
             ]
-
             if self.simple_runner is not None:
                 self.results = self.simple_runner.run_analysis(observed_phenotypes_hpo_ids)
                 print("Running with custom pheval runner")
-                self.post_process()
+                self.postpost_process()  # Call post_process here for each file
             else:
                 print("Main system is not initialized")
 
-
     def post_process(self):
+        print("i do i do u do")
+
+    def postpost_process(self):
         """post_process"""
         print("post processing")
         if self.input_dir_config.disease_analysis and self.results:
@@ -94,4 +95,3 @@ class ExomiserPhEvalRunner(PhEvalRunner):
             PhEvalDiseaseResult(disease_name=disease_id, disease_identifier=disease_id, score=distance)
             for disease_id, distance in query_results
         ]
-
