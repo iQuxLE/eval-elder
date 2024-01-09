@@ -58,6 +58,8 @@ class ExomiserPhEvalRunner(PhEvalRunner):
         print(f"Processing {len(file_list)} files...")
         for i, file_path in enumerate(file_list, start=1):
             print(f"Processing file {i}: {file_path}")  # Print the file being processed
+            self.current_file_name = file_path.stem
+            print(f"self.current file name  = {self.current_file_name}")
             phenopacket = phenopacket_reader(file_path)
             phenopacket_util = PhenopacketUtil(phenopacket)
             observed_phenotypes = phenopacket_util.observed_phenotypic_features()
@@ -79,13 +81,14 @@ class ExomiserPhEvalRunner(PhEvalRunner):
         print("post processing")
         if self.input_dir_config.disease_analysis and self.results:
             disease_results = self.create_disease_results(self.results)
-            output_file_name = f"{self.current_file_name}_disease_results.tsv"  # Create a unique output file name
+            output_file_name = f"{self.current_file_name}_disease_results.tsv"
             generate_pheval_result(
                 pheval_result=disease_results,
                 sort_order_str=self.config.post_process.sort_order,
                 output_dir=self.pheval_disease_results_dir,
                 tool_result_path=Path(output_file_name),
             )
+            print(f"generated pheval results for {output_file_name}")
         else:
             print("No results to process")
 
