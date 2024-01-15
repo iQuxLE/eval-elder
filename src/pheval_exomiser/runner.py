@@ -33,7 +33,7 @@ class ExomiserPhEvalRunner(PhEvalRunner):
         self.simple_service = SimpleService()
         self.config = ElderPostProcessingConfig.parse_obj(self.input_dir_config.tool_specific_configuration_options)
         self.simple_runner = ElderRunner(
-            similarity_measure=SimilarityMeasures.COSINE)
+            similarity_measure=SimilarityMeasures.IP)
         self.current_file_name = None
 
     def prepare(self):

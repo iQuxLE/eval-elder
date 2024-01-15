@@ -6585,6 +6585,16 @@ files = [
 ]
 
 [[package]]
+name = "wget"
+version = "3.2"
+description = "pure python download utility"
+optional = false
+python-versions = "*"
+files = [
+    {file = "wget-3.2.zip", hash = "sha256:35e630eca2aa50ce998b9b1a127bb26b30dfee573702782aa982f875e3f16061"},
+]
+
+[[package]]
 name = "widgetsnbextension"
 version = "4.0.9"
 description = "Jupyter interactive widgets for Jupyter Notebook"
@@ -6692,4 +6702,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "0d6fff7856e2c34f56066e67ccbcf92aa4cebe2a4419d10b1958e18a640c7b8a"
+content-hash = "b4ed6d4bc3cdcaafa19df6a1b9cd2423eae7a394f00427e4837ba789a517bced"

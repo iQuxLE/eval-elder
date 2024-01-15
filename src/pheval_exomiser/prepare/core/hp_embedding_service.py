@@ -16,6 +16,7 @@ class HPEmbeddingService(BaseService):
         if not self.hp_embeddings_collection:
             raise ValueError("HP embeddings collection is not initialized")
         if self.hp_embeddings_collection:
+            print("HP Embeddings collection early return, cause already initialized!")
             return self.hp_embeddings_collection
 
         batch_size = 25

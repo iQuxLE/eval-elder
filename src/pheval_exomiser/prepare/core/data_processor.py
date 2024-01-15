@@ -80,7 +80,7 @@ class DataProcessor:
         :return: Dictionary with diseases as keys and lists of corresponding HPO IDs as values.
         """
         disease_to_hps_dict = {}
-        results = collection.get(where={}, include=["metadatas"])
+        results = collection.get(include=["metadatas"])
         for item in results.get("metadatas"):
             metadata_json = json.loads(item["_json"])
             disease = metadata_json.get("disease")

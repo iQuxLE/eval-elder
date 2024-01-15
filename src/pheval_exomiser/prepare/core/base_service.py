@@ -17,6 +17,7 @@ class BaseService(ABC):
         self.hp_embeddings_collection = data_processor.db_manager.hp_embeddings_collection
         self.disease_to_hps = data_processor.disease_to_hps
         self.disease_avg_embeddings_collection = data_processor.db_manager.disease_avg_embeddings_collection
+        self.clustered_embeddings_collection = data_processor.db_manager.clustered_embeddings_collection
 
     @abstractmethod
     def process_data(self) -> Collection:
