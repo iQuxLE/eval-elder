@@ -1,0 +1,3 @@
+results_directory_path	top	top3	top5	top10	found	total	mean_reciprocal_rank	percentage_top	percentage_top3	percentage_top5	percentage_top10	percentage_found
+/Users/carlo/Desktop/exomiser_results	107	176	187	213	385	385	0.38218938244413436	27.792207792207794	45.714285714285715	48.57142857142857	55.324675324675326	100.0
+/Users/carlo/Desktop/elder_results_new	0	2	7	12	12	385	0.007518037518037518	0.0	0.5194805194805194	1.8181818181818181	3.116883116883117	3.116883116883117

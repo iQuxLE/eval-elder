@@ -10,18 +10,27 @@ logger = logging.getLogger(__name__)
 class ChromaDBManager:
     def __init__(self, similarity: Optional[SimilarityMeasures] = SimilarityMeasures.COSINE):
         config = config_loader.load_config()
-        path = config["chroma_db_path"]
+        path = config["chroma_db_path"] # change between stagedb and stagedb_new
         self.client = chromadb.PersistentClient(path=path)
         self.ont_hp = self.get_collection("ont_hp")
-        self.hpoa = self.get_collection("hpoa")
-        self.hp_embeddings_collection = self.get_collection("HPtoEmbeddings") or self.create_collection(
-            "HPtoEmbeddings", similarity
+        self.hpoa = self.get_collection("hpoa3233")
+        self.hp_embeddings_collection = self.get_collection("hpo") or self.create_collection(
+            "hpo", similarity
         )
-        self.disease_avg_embeddings_collection = self.get_collection("DiseaseAvgEmbeddings") or self.create_collection(
-            "DiseaseAvgEmbeddings", similarity
+        self.disease_avg_embeddings_collection = self.get_collection("average") or self.create_collection(
+            "average", similarity
         )
-        self.clustered_embeddings_collection = self.get_collection("DiseaseClustEmbeddings") or self.create_collection(
-            "DiseaseClustEmbeddings", similarity
+        self.clustered_embeddings_collection = self.get_collection("DiseaseOrganEmbeddings") or self.create_collection(
+            "DiseaseOrganEmbeddings", similarity
+        )
+        # THIS 2 NEW ONES CREATED FOR USING THE OMIM DICT FROM phenotype.hpoa instead hpoa collection
+        self.disease_new_avg_embeddings_collection = self.get_collection(
+            "DiseaseNewAvgEmbeddingsNew") or self.create_collection(
+            "DiseaseNewAvgEmbeddingsNew", similarity
+        )
+        self.clustered_new_embeddings_collection = self.get_collection(
+            "DiseaseNewOrganEmbeddings") or self.create_collection(
+            "DiseaseNewOrganEmbeddings", similarity
         )
 
     def create_collection(self, name: str, similarity: Optional[SimilarityMeasures] = SimilarityMeasures.COSINE):

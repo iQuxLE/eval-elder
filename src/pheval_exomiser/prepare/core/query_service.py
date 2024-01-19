@@ -25,7 +25,7 @@ class QueryService:
         self.hpo_clustering = hpo_clustering
         self.disease_organ_service = disease_organ_service
 
-    def query_diseases_using_organ_syst_embeddings(self, hpo_ids: List[str], n_results: int = 10) -> list[Any]:
+    def query_diseases_using_organ_syst_embeddings(self, hpo_ids: List[str], n_results: int = None) -> list[Any]:
         """
         Queries the 'DiseaseClusteredEmbeddings' collection for diseases closest to the clustered embeddings of given HPO terms.
 
@@ -34,11 +34,11 @@ class QueryService:
         :return: List of diseases sorted by closeness to the clustered HPO embeddings.
         """
         patient_embedding = self.disease_organ_service.compute_organ_embeddings(hpo_terms=hpo_ids)
-
+        # len(self.disease_organ_service.clustered_embeddings_collection.get(
+        #                  include=['embeddings']))
         query_params = {
             "query_embeddings": [patient_embedding.tolist()],
             "include": ["embeddings", "distances"],
-            "n_results": n_results
         }
         # estimated_total_query_results = self.disease_organ_service.clustered_embeddings_collection.get(
         #         include=['embeddings'])
@@ -46,7 +46,7 @@ class QueryService:
         #                  n_results=n_results,
         #                  col=self.disease_organ_service.clustered_embeddings_collection,
         #                  estimated_total_query_results=estimated_total_query_results)
-        query_results = self.disease_organ_service.clustered_embeddings_collection.query(**query_params)
+        query_results = self.disease_organ_service.clustered_new_embeddings_collection.query(**query_params)
         sorted_results = self.process_query_results(query_results=query_results)
         return sorted_results
 
@@ -68,12 +68,12 @@ class QueryService:
             "include": ["embeddings", "distances"]
         }
 
-        estimated_total_query_results = self.disease_service.disease_avg_embeddings_collection.get(
-                include=['embeddings'])
-        self.max_results(query_params=query_params,
-                         n_results=n_results,
-                         col=self.disease_service.disease_avg_embeddings_collection,
-                         estimated_total_query_results=estimated_total_query_results)
+        # estimated_total_query_results = self.disease_service.disease_avg_embeddings_collection.get(
+        #         include=['embeddings'])
+        # self.max_results(query_params=query_params,
+        #                  n_results=n_results,
+        #                  col=self.disease_service.disease_avg_embeddings_collection,
+        #                  estimated_total_query_results=estimated_total_query_results)
         query_results = self.disease_service.disease_avg_embeddings_collection.query(**query_params)
         sorted_results = self.process_query_results(query_results=query_results)
         return sorted_results

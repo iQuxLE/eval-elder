@@ -1,4 +1,4 @@
-# elder.py
+# pheval_exomiser.py
 
 from pheval_exomiser.prepare.core.chromadb_manager import ChromaDBManager
 from pheval_exomiser.prepare.core.data_processor import DataProcessor

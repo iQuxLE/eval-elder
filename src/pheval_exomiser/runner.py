@@ -17,7 +17,7 @@ from pheval.utils.phenopacket_utils import PhenopacketUtil
 
 
 @dataclass
-class ExomiserPhEvalRunner(PhEvalRunner):
+class ElderPhEvalRunner(PhEvalRunner):
     """_summary_"""
 
     input_dir: Path
@@ -33,7 +33,7 @@ class ExomiserPhEvalRunner(PhEvalRunner):
         self.simple_service = SimpleService()
         self.config = ElderPostProcessingConfig.parse_obj(self.input_dir_config.tool_specific_configuration_options)
         self.simple_runner = ElderRunner(
-            similarity_measure=SimilarityMeasures.IP)
+            similarity_measure=SimilarityMeasures.COSINE)
         self.current_file_name = None
 
     def prepare(self):

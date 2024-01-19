@@ -8,7 +8,7 @@ Clone the pheval.exomiser repo and set up the poetry environment:
 
 ```shell
 git clone https://github.com/monarch-initiative/pheval.exomiser.git
-cd ELDER
+cd pheval.exomiser
 poetry shell
 poetry install
 ```

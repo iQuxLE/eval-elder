@@ -19,21 +19,21 @@ class DiseaseAvgEmbeddingService(BaseService):
         self.precomputed_embeddings = {}
 
     def process_data(self) -> Collection:
-        if not self.disease_to_hps:
+        if not self.disease_to_hps_from_omim:
             raise ValueError("disease to hps data is not initialized")
         if not self.disease_avg_embeddings_collection:
-            raise ValueError("disease_avg_embeddings collection is not initialized")
+            raise ValueError("disease_new_avg_embeddings collection is not initialized")
 
-        if self.disease_avg_embeddings_collection:
+        if self.disease_new_avg_embeddings_collection:
             print("Disease Avg Embeddings collection early return, cause already initialized!")
-            return self.disease_avg_embeddings_collection
+            return self.disease_new_avg_embeddings_collection
 
         batch_size = 25
         batch = []
         embedding_calc_time = 0
         upsert_time = 0
 
-        for disease, hps in self.disease_to_hps.items():
+        for disease, hps in self.disease_to_hps_from_omim.items():
             start = time.time()
             average_embedding = self.data_processor.calculate_average_embedding(hps, self.hp_embeddings)
             embedding_calc_time += time.time() - start
@@ -50,8 +50,8 @@ class DiseaseAvgEmbeddingService(BaseService):
             self.upsert_batch(batch)
             upsert_time += time.time() - start
 
-        print(f"Total time for embedding calculations: {embedding_calc_time}s")
-        print(f"Total time for upsert operations: {upsert_time}s")
+        print(f"Total time for embedding calculations (avg): {embedding_calc_time}s")
+        print(f"Total time for upsert operations (avg): {upsert_time}s")
 
         return self.disease_avg_embeddings_collection
 

@@ -23,7 +23,7 @@ class HPEmbeddingService(BaseService):
         batch = []
         upsert_time = 0
         # make it a np array before and input this instead getting data from dict
-        np_array = self.hp_embeddings.items()
+        # np_array = self.hp_embeddings.items()
 
         for hp_id, data in self.hp_embeddings.items():
             embedding_list = np.array(data["embeddings"])

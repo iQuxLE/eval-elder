@@ -1,4 +1,4 @@
-# elder.py
+# pheval_exomiser.py
 
 from pheval_exomiser.prepare.core.chromadb_manager import ChromaDBManager
 from pheval_exomiser.prepare.core.data_processor import DataProcessor
@@ -21,7 +21,8 @@ class ElderRunner:
 
     def initialize_data(self):
         _ = self.data_processor.hp_embeddings
-        _ = self.data_processor.disease_to_hps
+        # _ = self.data_processor.disease_to_hps
+        _ = self.data_processor.disease_to_hps_from_omim
 
     def setup_collections(self):
         self.hp_service.process_data()
@@ -35,4 +36,4 @@ class ElderRunner:
             disease_service=self.disease_service,
             disease_organ_service=self.disease_organ_service
         )
-        return query_service.query_diseases_using_organ_syst_embeddings(input_hpos)
+        return query_service.query_diseases_by_hpo_terms_using_inbuild_distance_functions(input_hpos)

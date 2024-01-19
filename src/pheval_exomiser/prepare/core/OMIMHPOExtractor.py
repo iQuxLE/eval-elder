@@ -32,5 +32,17 @@ class OMIMHPOExtractor:
 
         for omim in omim_hpo_dict:
             omim_hpo_dict[omim] = list(omim_hpo_dict[omim])
-
+        print(len(omim_hpo_dict))
         return omim_hpo_dict
+
+    @staticmethod
+    def read_data_from_file(file_path):
+        """
+        Reads data from a file at the given file path.
+
+        :param file_path: Path to the file to read.
+        :return: String containing the file's content.
+        """
+        with open(file_path, 'r') as file:
+            data = file.read()
+        return data

@@ -28,11 +28,11 @@ class Main:
         print(setup_time)
         self.runner.db_manager.list_collections()
 
-    # def run(self):
-    #     self.results = self.runner.run_analysis(allfromomim619340)
+    def run(self):
+        self.results = self.runner.run_analysis(allfromomim619340)
 
     def save_results(self):
-        result_path = os.path.join(self.output_dir, "results.txt")
+        result_path = os.path.join(self.output_dir, "results_after_disaster_2.txt")
         with open(result_path, "w") as file:
             for result in self.results:
                 file.write(str(result) + "\n")
@@ -43,11 +43,11 @@ def main():
     main_instance = Main()
     print("init_prepare")
     main_instance.prepare()
-    # print("init_run")
-    # main_instance.run()
-    # print("init_save")
-    # main_instance.save_results()
-    # print("results printed")
+    print("init_run")
+    main_instance.run()
+    print("init_save")
+    main_instance.save_results()
+    print("results printed")
 
 
 if __name__ == "__main__":

@@ -18,19 +18,8 @@ class DataProcessor:
     def __init__(self, db_manager: ChromaDBManager):
         self.db_manager = db_manager
         self._hp_embeddings = None
-        self._disease_to_hps = None
-
-    # @property
-    # def init_hp_embeddings(self) -> Dict:
-    #     if self._hp_embeddings() is None:
-    #         self._hp_embeddings = self.create_hpo_id_to_embedding(self.db_manager.ont_hp)
-    #     return self._hp_embeddings
-    #
-    # @property
-    # def init_disease_to_hps(self) -> Dict:
-    #     if self._disease_to_hps() is None:
-    #         self._disease_to_hps = self.create_disease_to_hps_dict(self.db_manager.hpoa)
-    #     return self._disease_to_hps
+        # self._disease_to_hps = None
+        self._disease_to_hps_from_omim = None
 
     @property
     def hp_embeddings(self) -> Dict:
@@ -38,11 +27,21 @@ class DataProcessor:
             self._hp_embeddings = self.create_hpo_id_to_embedding(self.db_manager.ont_hp)
         return self._hp_embeddings
 
+    # from hpoa but only 3233
+    # @property
+    # def disease_to_hps(self) -> Dict:
+    #     if self._disease_to_hps is None:
+    #         self._disease_to_hps = self.create_disease_to_hps_dict(self.db_manager.hpoa)
+    #     return self._disease_to_hps
+
+    # this one would take from a Dict since it does not care about embeddings, just disease, phenotype, label
     @property
-    def disease_to_hps(self) -> Dict:
-        if self._disease_to_hps is None:
-            self._disease_to_hps = self.create_disease_to_hps_dict(self.db_manager.hpoa)
-        return self._disease_to_hps
+    def disease_to_hps_from_omim(self) -> Dict:
+        if self._disease_to_hps_from_omim is None:
+            file_path = "/Users/carlo/PycharmProjects/chroma_db_playground/phenotype.hpoa"
+            data = OMIMHPOExtractor.read_data_from_file(file_path)
+            self._disease_to_hps_from_omim = OMIMHPOExtractor.extract_omim_hpo_mappings(data)
+        return self._disease_to_hps_from_omim
 
     @staticmethod
     def create_hpo_id_to_embedding(collection: Collection) -> Dict:
@@ -88,10 +87,11 @@ class DataProcessor:
             # label = metadata_json.get("disease_label")
             if disease and phenotype:
                 if disease not in disease_to_hps_dict:
-                    disease_to_hps_dict[disease] = [phenotype] #put the label
+                    disease_to_hps_dict[disease] = [phenotype]  # put the label
                 else:
-                    disease_to_hps_dict[disease].append(phenotype) # put the label
-        print(len(disease_to_hps_dict))
+                    disease_to_hps_dict[disease].append(phenotype)  # put the label
+        # print(len(disease_to_hps_dict))
+        # print(disease_to_hps_dict)
         return disease_to_hps_dict
 
     @staticmethod
